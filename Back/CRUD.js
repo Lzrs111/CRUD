@@ -4,6 +4,7 @@
 var mongo = require("mongodb")
 var http = require("http")
 
+//funkcija koja vadi sve korisnike iz baze
 function retrieveFromDB(db,url,res) {
     db.connect("mongodb://localhost:27017",(err,datab)=>{
         datab.collection("users").find({},{_id:0}).toArray((err,info)=>{
@@ -14,24 +15,36 @@ function retrieveFromDB(db,url,res) {
         })
 }
 
+//funkcija koja briše korisnika iz baze
 function deleteFromDB(db,url,res) {
     var userId = url.slice(-1)
     console.log("user id", userId)
     db.connect("mongodb://localhost:27017",(err,datab)=>{
        var collection =  datab.collection("users")        
        collection.remove({id:userId})
-       collection.find({}).toArray((err,info)=>{
-            console.log("User deleted")
-            console.log(info)
-            res.end()
-            })           
+       res.end()
     })
-
-
 }
 
+//funkcija koja dodaje u bazu
+function addToDB(db,body,res) {
+    var json = JSON.parse(body)
+    
+    db.connect("mongodb://localhost:27017",(err,datab)=>{
+       var collection =  datab.collection("users") 
+       collection.find({},{_id:0,name:0,surname:0,email:0}).toArray((err,info)=>{
+           //s obzirom da se id korisnika ne unosi u front endu, korsniku se dodijeljuje id za jedan veći od trenutnog maksimalnog
+           var max = Number(info[info.length-1]["id"])
+           json["id"] = (max+1).toString()
+           collection.insertOne(json,(err)=>{
+               res.end()
+               })
+           })
+    })       
+}
 
 module.exports ={
     retrieveFromDB,
-    deleteFromDB
+    deleteFromDB,
+    addToDB
 }

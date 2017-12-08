@@ -3,6 +3,7 @@ var fs = require("fs")
 var url = require("url")
 var retrievefromDB = require("./CRUD.js").retrieveFromDB
 var deletefromDB = require("./CRUD.js").deleteFromDB
+var addToDB = require("./CRUD.js").addToDB
 var index = fs.readFileSync("./build/index.html")
 var mongo = require("mongodb").MongoClient
 
@@ -30,6 +31,12 @@ http.createServer((req,res)=>{
     } else if (req.method==="DELETE") {
         console.log("Recieved request to delete")
         deletefromDB(mongo,pathname,res)
+    } else if (req.method==="POST" && pathname == "/adduser") {
+            var string= ""
+            req.on("data",(data)=>{
+                string+=data.toString()
+                addToDB(mongo,string,res)
+            })
     }
 
     }).listen("1337")

@@ -1,5 +1,7 @@
 import React from "react"
+import UserForm from "./userForm.js"
 import UserInfoBox from "./userInfo.js"
+
 
 
 export default class Main extends React.Component {
@@ -12,8 +14,8 @@ export default class Main extends React.Component {
             }
         this.deleteUser = this.deleteUser.bind(this)
         this.getUsers = this.getUsers.bind(this)
-        
-        
+        this.addSwitch = this.addSwitch.bind(this)
+        this.addUser = this.addUser.bind(this)
     }
     componentDidMount() {
         this.getUsers()
@@ -23,6 +25,7 @@ export default class Main extends React.Component {
         this.setState({
             adding: !this.state.adding
         })
+        console.log(this.state.users, this.state.number)
     }
     
     //funkcija koja vadi korisnike iz baze
@@ -53,22 +56,29 @@ export default class Main extends React.Component {
             this.getUsers()
             })
     }
-    addUser() {
-
+    //dodavanje korisnika
+    addUser(user) {
+        console.log("Adding user")
+        console.log(JSON.stringify(user))
+        var request = new Request("adduser",{
+            method: "POST",
+            body: JSON.stringify(user) 
+        })
+        fetch(request).then(this.getUsers())
     }
     render() {
         var number = this.state.number
         return(
            <div>
-               <form method="POST">
-                 <input></input>
-               </form>
-            
+            {this.state.adding ? <UserForm cancel={this.addSwitch} addUser={this.addUser}/> : null}
+
             {(number!=null) ? number.map((val,ind)=>{
                 console.log(this.state.users[ind])
                 return <UserInfoBox info={this.state.users[ind]} key={ind} deleteUser={this.deleteUser} id={this.state.users[ind].id}/>    
                 }) : null }
-
+            <button onClick={()=>{this.addSwitch()}}>
+                Add new user
+            </button>
            </div> 
         )
     }

@@ -1,5 +1,20 @@
 .inputMain {
     width: 60%;
-    height: 50%;
-    margin-left:50%;
+    height: 30%;
+    margin-left:20%;
+    border:solid 3px black;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.buttonDiv {
+    display: flex;
+    justify-content: space-evenly;
+    width: 20%;
+    margin-left: 40%;
 }
