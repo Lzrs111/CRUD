@@ -18276,13 +18276,13 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         super();
         this.state = {
             users: null,
-            number: null,
             adding: false //ovaj state određuje dodajemo li korisnika ili ne
         };
         this.deleteUser = this.deleteUser.bind(this);
         this.getUsers = this.getUsers.bind(this);
         this.addSwitch = this.addSwitch.bind(this);
         this.addUser = this.addUser.bind(this);
+        this.editUser = this.editUser.bind(this);
     }
     componentDidMount() {
         this.getUsers();
@@ -18292,7 +18292,6 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         this.setState({
             adding: !this.state.adding
         });
-        console.log(this.state.users, this.state.number);
     }
 
     //funkcija koja vadi korisnike iz baze
@@ -18301,12 +18300,10 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             method: "GET"
         });
         fetch(request).then(response => {
-            console.log(response);
             return response.json();
         }).then(data => {
             this.setState({
-                users: data,
-                number: Object.keys(data)
+                users: data
             });
         });
     }
@@ -18314,33 +18311,48 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     deleteUser(key) {
         console.log("Deleting user");
         var deleteString = "delete" + key.toString();
-        console.log(deleteString);
         var request = new Request(deleteString, {
             method: "DELETE"
+        });
+        fetch(request).then(response => {
+            return response.json();
+        }).then(data => {
+            this.setState({
+                users: data
+            });
+        });
+    }
+    //dodavanje korisnika
+    addUser(user) {
+        var request = new Request("adduser", {
+            method: "POST",
+            body: JSON.stringify(user)
+        });
+        fetch(request).then(() => {
+            this.getUsers();
+            this.addSwitch();
+        });
+    }
+    //mijenjanje postojećeg korisnika
+    editUser(user) {
+        var request = new Request("edituser", {
+            method: "POST",
+            body: JSON.stringify(user)
         });
         fetch(request).then(() => {
             this.getUsers();
         });
     }
-    //dodavanje korisnika
-    addUser(user) {
-        console.log("Adding user");
-        console.log(JSON.stringify(user));
-        var request = new Request("adduser", {
-            method: "POST",
-            body: JSON.stringify(user)
-        });
-        fetch(request).then(this.getUsers());
-    }
     render() {
-        var number = this.state.number;
+
+        var number = this.state.users ? Object.keys(this.state.users) : null;
+
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             "div",
             null,
             this.state.adding ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__userForm_js__["a" /* default */], { cancel: this.addSwitch, addUser: this.addUser }) : null,
             number != null ? number.map((val, ind) => {
-                console.log(this.state.users[ind]);
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, id: this.state.users[ind].id });
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, id: this.state.users[ind].id, update: this.editUser });
             }) : null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "button",
@@ -19050,37 +19062,123 @@ module.exports = function (css) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["a"] = UserInfoBox;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 
 
-function UserInfoBox(props) {
-    var obj = props.info;
-    var html;
-    var keys = Object.keys(obj);
+class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+    constructor(props) {
+        super();
+        this.state = {
+            editing: false,
+            userInfo: props.info
+        };
+        this.editSwitch = this.editSwitch.bind(this);
+        this.normalRender = this.normalRender.bind(this);
+        this.editRender = this.editRender.bind(this);
+        this.updateInfo = this.updateInfo.bind(this);
+    }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            userInfo: nextProps.info
+        });
+    }
+    editSwitch() {
+        this.setState({
+            editing: !this.state.editing
+        });
+    }
+    updateInfo() {
+        console.log(this.refs);
+        var info = {};
+        info["id"] = this.state.userInfo["id"];
+        info["name"] = this.refs["name"].value;
+        info["surname"] = this.refs["surname"].value;
+        info["email"] = this.refs["email"].value;
+        console.log(info);
+        this.editSwitch();
+        this.props.update(info);
+    }
+    normalRender() {
+        var obj = this.state.userInfo;
+        var html;
+        var keys = Object.keys(obj);
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            null,
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+            keys.map((val, index) => {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    "div",
+                    { key: index, style: { display: "inline" } },
+                    " " + obj[keys[index]] + " "
+                );
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "button",
+                { onClick: () => {
+                        this.props.deleteUser(this.props.id);
+                    } },
+                "DELETE"
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "button",
+                { onClick: () => {
+                        this.editSwitch();
+                    } },
+                "EDIT"
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null)
+        );
+    }
+    editRender() {
+        var obj = this.state.userInfo;
+        var html;
+        var keys = Object.keys(obj);
+        var inputs = ["name", "surname", "email"];
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            null,
+            keys.map((val, index) => {
 
-    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        "div",
-        null,
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
-        keys.map((val, index) => {
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "div",
-                { key: index, style: { display: "inline" } },
-                " " + obj[keys[index]] + " "
-            );
-        }),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            "button",
-            { onClick: () => {
-                    props.deleteUser(props.id);
-                } },
-            "DELETE"
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null)
-    );
+                if (index > 0) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { key: index, style: { display: "inline" }, defaultValue: obj[keys[index]],
+                        ref: inputs[index - 1] });
+                } else {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { key: index, style: { display: "inline" } },
+                        " " + obj[keys[index]] + " "
+                    );
+                }
+            }),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "button",
+                { onClick: () => {
+                        this.updateInfo();
+                    } },
+                "CONFIRM"
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "button",
+                { onClick: () => {
+                        this.editSwitch();
+                    } },
+                "CANCEL"
+            )
+        );
+    }
+
+    render() {
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "div",
+            null,
+            this.state.editing ? this.editRender() : this.normalRender()
+        );
+    }
 }
+/* harmony export (immutable) */ __webpack_exports__["a"] = UserInfoBox;
+
 
 /***/ })
 /******/ ]);

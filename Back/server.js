@@ -2,8 +2,9 @@ var http = require("http")
 var fs = require("fs")
 var url = require("url")
 var retrievefromDB = require("./CRUD.js").retrieveFromDB
-var deletefromDB = require("./CRUD.js").deleteFromDB
+var editDB = require("./CRUD.js").editDB
 var addToDB = require("./CRUD.js").addToDB
+var deletefromDB = require("./CRUD.js").deleteFromDB
 var index = fs.readFileSync("./build/index.html")
 var mongo = require("mongodb").MongoClient
 
@@ -36,6 +37,12 @@ http.createServer((req,res)=>{
             req.on("data",(data)=>{
                 string+=data.toString()
                 addToDB(mongo,string,res)
+            })
+    } else if (req.method ==="POST" && pathname == "/edituser") {
+            var string = ""
+            req.on("data",(data)=>{
+                string+=data.toString()
+                editDB(mongo,string,res)
             })
     }
 
