@@ -18265,27 +18265,51 @@ module.exports = camelize;
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userInfo_js__ = __webpack_require__(28);
+
 
 
 class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     constructor() {
         super();
         this.state = {
-            user1: "null"
+            users: null,
+            number: null
         };
+        this.deleteUser = this.deleteUser.bind(this);
+        this.getUsers = this.getUsers.bind(this);
     }
     componentDidMount() {
-        var request = new Request("user1", {
+        this.getUsers();
+    }
+    //funkcija koja vadi korisnike iz baze
+    getUsers() {
+        var request = new Request("users", {
             method: "GET"
         });
-        fetch(request).then(data => {
-            console.log(data);
-            return data.text();
-        }).then(stuff => {
-            console.log(stuff);
+        fetch(request).then(response => {
+            console.log(response);
+            return response.json();
+        }).then(data => {
+            this.setState({
+                users: data,
+                number: Object.keys(data)
+            });
+        });
+    }
+    deleteUser(key) {
+        console.log("Deleting user");
+        var deleteString = "delete" + key.toString();
+        console.log(deleteString);
+        var request = new Request(deleteString, {
+            method: "DELETE"
+        });
+        fetch(request).then(() => {
+            this.getUsers();
         });
     }
     render() {
+        var number = this.state.number;
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             "div",
             null,
@@ -18294,16 +18318,52 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 { method: "POST" },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", null)
             ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                "h1",
-                null,
-                this.state.user1
-            )
+            number != null ? number.map((val, ind) => {
+                console.log(this.state.users[ind]);
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, id: this.state.users[ind].id });
+            }) : null
         );
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Main;
 
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = UserInfoBox;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+
+
+function UserInfoBox(props) {
+    var obj = props.info;
+    var html;
+    var keys = Object.keys(obj);
+
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        "div",
+        null,
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
+        keys.map((val, index) => {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                "div",
+                { key: index, style: { display: "inline" } },
+                " " + obj[keys[index]] + " "
+            );
+        }),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            "button",
+            { onClick: () => {
+                    props.deleteUser(props.id);
+                } },
+            "DELETE"
+        ),
+        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null)
+    );
+}
 
 /***/ })
 /******/ ]);
