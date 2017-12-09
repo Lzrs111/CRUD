@@ -26,7 +26,7 @@ function deletefromDB(pathname,res) {
     var userId = pathname.slice(-1)
     userModel.find({id:userId}).remove((err)=>{
         if (err) throw err
-        retrievefromDB(res)
+        res.end()
         })
 }
 

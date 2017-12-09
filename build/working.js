@@ -18344,12 +18344,8 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         var request = new Request(deleteString, {
             method: "DELETE"
         });
-        fetch(request).then(response => {
-            return response.json();
-        }).then(data => {
-            this.setState({
-                users: data
-            });
+        fetch(request).then(() => {
+            this.getUsers();
         });
     }
     //dodavanje korisnika

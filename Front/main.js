@@ -49,12 +49,9 @@ export default class Main extends React.Component {
         var request = new Request(deleteString,{
             method: "DELETE"
         })
-        fetch(request).then((response)=>{
-            return response.json();
-            }).then((data)=>{
-                this.setState({
-                    users:data
-                })})           
+        fetch(request).then(()=>{
+            this.getUsers()
+        })
     }
     //dodavanje korisnika
     addUser(user) {
