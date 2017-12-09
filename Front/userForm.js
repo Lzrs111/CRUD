@@ -2,6 +2,9 @@ import React from "react"
 import './userform.css'
 import inputCheck from "./inputcheck.js";
 
+
+//komponenta za unos novih korisnika u bazu
+
 export default class UserForm extends React.Component {
     constructor(){
         super()

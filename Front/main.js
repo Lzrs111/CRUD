@@ -2,7 +2,7 @@ import React from "react"
 import UserForm from "./userForm.js"
 import UserInfoBox from "./userInfo.js"
 
-
+//glavna komponenta
 
 export default class Main extends React.Component {
     constructor(){

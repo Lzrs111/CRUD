@@ -1,6 +1,9 @@
 import React from "react"
 import inputCheck from "./inputcheck.js";
 
+
+//komponenta koja prikazuje postojeće korisnike, ali se putem nje i mijenjaju podaci o tim istim korisnicima
+
 export default class UserInfoBox extends React.Component{
     constructor(props) {
         super()

@@ -47,6 +47,8 @@ function addToDB(db,body,res) {
     })       
 }
 
+
+//funkcija koja mijenja unos u bazi
 function editDB(db,body,res) {
     var json = JSON.parse(body)
     db.connect("mongodb://localhost:27017",(err,datab)=>{
