@@ -11,11 +11,7 @@ var mongo = require("mongodb").MongoClient
 
 
 http.createServer((req,res)=>{
-    res.writeHead("200",{"content-type": "text/html"})
     var pathname = url.parse(req.url).pathname;
-
-    console.log(req.method, req.url)
-
 
     if(pathname == "/") {
         html = fs.readFileSync("./build/index.html", "utf8");
@@ -27,10 +23,8 @@ http.createServer((req,res)=>{
         res.end()
     
     } else if (req.method ==="GET" && pathname==="/users") {
-        console.log(pathname)
         retrievefromDB(mongo,pathname,res)
     } else if (req.method==="DELETE") {
-        console.log("Recieved request to delete")
         deletefromDB(mongo,pathname,res)
     } else if (req.method==="POST" && pathname == "/adduser") {
             var string= ""

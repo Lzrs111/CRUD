@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 14);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -261,9 +261,9 @@ process.umask = function() { return 0; };
 /* WEBPACK VAR INJECTION */(function(process) {
 
 if (process.env.NODE_ENV === 'production') {
-  module.exports = __webpack_require__(15);
-} else {
   module.exports = __webpack_require__(16);
+} else {
+  module.exports = __webpack_require__(17);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
@@ -577,7 +577,7 @@ module.exports = warning;
 if (process.env.NODE_ENV !== 'production') {
   var invariant = __webpack_require__(5);
   var warning = __webpack_require__(6);
-  var ReactPropTypesSecret = __webpack_require__(17);
+  var ReactPropTypesSecret = __webpack_require__(18);
   var loggedTypeFailures = {};
 }
 
@@ -876,7 +876,7 @@ module.exports = shallowEqual;
  * 
  */
 
-var isTextNode = __webpack_require__(20);
+var isTextNode = __webpack_require__(21);
 
 /*eslint-disable no-bitwise */
 
@@ -938,12 +938,40 @@ module.exports = focusNode;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = inputCheck;
+//ova funkcija provjerava inpute korisnika. Ime i prezime ne smiju biti prazni, a također provjerava je li email ispravnog formata
+
+function inputCheck(inputs) {
+
+    var check = [];
+    //nije moje
+    var email = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    console.log("email", email.test(inputs[2].value), inputs[2]);
+    for (var i = 0; i < inputs.length; i++) {
+        console.log(inputs[i].value);
+        if (inputs[i].value == "") {
+            check = [false, inputs[i]];
+            break;
+        } else if (i == 2 && email.test(inputs[2].value) == false) {
+            check = [false, inputs[2]];
+        } else {
+            check = [true];
+        }
+    }
+    return check;
+}
+
+/***/ }),
+/* 15 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_js__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__main_js__ = __webpack_require__(28);
 
 
 
@@ -951,7 +979,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__main_js__["a" /* default */], null), document.getElementById("renderhere"));
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -979,7 +1007,7 @@ isValidElement:K,version:"16.2.0",__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_F
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2344,7 +2372,7 @@ module.exports = react;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2363,7 +2391,7 @@ module.exports = ReactPropTypesSecret;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2401,15 +2429,15 @@ if (process.env.NODE_ENV === 'production') {
   // DCE check should happen before ReactDOM bundle executes so that
   // DevTools can report bad minification during injection.
   checkDCE();
-  module.exports = __webpack_require__(19);
+  module.exports = __webpack_require__(20);
 } else {
-  module.exports = __webpack_require__(22);
+  module.exports = __webpack_require__(23);
 }
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2645,7 +2673,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2660,7 +2688,7 @@ Z.injectIntoDevTools({findFiberByHostInstance:pb,bundleType:0,version:"16.2.0",r
  * @typechecks
  */
 
-var isNode = __webpack_require__(21);
+var isNode = __webpack_require__(22);
 
 /**
  * @param {*} object The object to check.
@@ -2673,7 +2701,7 @@ function isTextNode(object) {
 module.exports = isTextNode;
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2701,7 +2729,7 @@ function isNode(object) {
 module.exports = isNode;
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2735,8 +2763,8 @@ var containsNode = __webpack_require__(12);
 var focusNode = __webpack_require__(13);
 var emptyObject = __webpack_require__(4);
 var checkPropTypes = __webpack_require__(7);
-var hyphenateStyleName = __webpack_require__(23);
-var camelizeStyleName = __webpack_require__(25);
+var hyphenateStyleName = __webpack_require__(24);
+var camelizeStyleName = __webpack_require__(26);
 
 /**
  * WARNING: DO NOT manually require this module.
@@ -18103,7 +18131,7 @@ module.exports = reactDom;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18118,7 +18146,7 @@ module.exports = reactDom;
 
 
 
-var hyphenate = __webpack_require__(24);
+var hyphenate = __webpack_require__(25);
 
 var msPattern = /^ms-/;
 
@@ -18145,7 +18173,7 @@ function hyphenateStyleName(string) {
 module.exports = hyphenateStyleName;
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18181,7 +18209,7 @@ function hyphenate(string) {
 module.exports = hyphenate;
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18196,7 +18224,7 @@ module.exports = hyphenate;
 
 
 
-var camelize = __webpack_require__(26);
+var camelize = __webpack_require__(27);
 
 var msPattern = /^-ms-/;
 
@@ -18224,7 +18252,7 @@ function camelizeStyleName(string) {
 module.exports = camelizeStyleName;
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18259,14 +18287,14 @@ function camelize(string) {
 module.exports = camelize;
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userForm_js__ = __webpack_require__(28);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userInfo_js__ = __webpack_require__(34);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userForm_js__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__userInfo_js__ = __webpack_require__(35);
 
 
 
@@ -18309,7 +18337,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
     //brisanje korisnika
     deleteUser(key) {
-        console.log("Deleting user");
+
         var deleteString = "delete" + key.toString();
         var request = new Request(deleteString, {
             method: "DELETE"
@@ -18340,6 +18368,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             body: JSON.stringify(user)
         });
         fetch(request).then(() => {
+            console.log("get users");
             this.getUsers();
         });
     }
@@ -18352,6 +18381,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             null,
             this.state.adding ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__userForm_js__["a" /* default */], { cancel: this.addSwitch, addUser: this.addUser }) : null,
             number != null ? number.map((val, ind) => {
+                //komponenta tek poslije mountanja dobiva podatke iz baze, te na inicijalnom renderu nema što prikazati
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, id: this.state.users[ind].id, update: this.editUser });
             }) : null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -18368,14 +18398,16 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userform_css__ = __webpack_require__(29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userform_css__ = __webpack_require__(30);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__userform_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__userform_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__inputcheck_js__ = __webpack_require__(14);
+
 
 
 
@@ -18387,13 +18419,27 @@ class UserForm extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
     componentDidMount() {
         this.nameInput.focus();
+
+        document.addEventListener("keypress", event => {
+            if (event.key == "Enter") {
+                this.getUserInfo();
+            }
+        });
     }
     getUserInfo() {
         var user = {};
-        user["name"] = this.nameInput.value;
-        user["surname"] = this.surnameInput.value;
-        user["email"] = this.emailInput.value;
-        this.props.addUser(user);
+        //prije unosa korisnika u bazu provjeriti jesu li sva polja ispunjena te je li email ispravan
+        var check = Object(__WEBPACK_IMPORTED_MODULE_2__inputcheck_js__["a" /* default */])([this.nameInput, this.surnameInput, this.emailInput]);
+
+        if (check[0] === true) {
+            user["name"] = this.nameInput.value;
+            user["surname"] = this.surnameInput.value;
+            user["email"] = this.emailInput.value;
+            this.props.addUser(user);
+        } else {
+            check[1].style.outlineColor = "red";
+            check[1].focus();
+        }
     }
     render() {
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -18464,13 +18510,13 @@ class UserForm extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(30);
+var content = __webpack_require__(31);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -18478,7 +18524,7 @@ var transform;
 var options = {"hmr":true}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(32)(content, options);
+var update = __webpack_require__(33)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -18495,10 +18541,10 @@ if(false) {
 }
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(31)(undefined);
+exports = module.exports = __webpack_require__(32)(undefined);
 // imports
 
 
@@ -18509,7 +18555,7 @@ exports.push([module.i, ".inputMain {\r\n    width: 60%;\r\n    height: 30%;\r\n
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports) {
 
 /*
@@ -18591,7 +18637,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -18647,7 +18693,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(33);
+var	fixUrls = __webpack_require__(34);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -18963,7 +19009,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports) {
 
 
@@ -19058,12 +19104,14 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__inputcheck_js__ = __webpack_require__(14);
+
 
 
 class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
@@ -19083,22 +19131,36 @@ class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             userInfo: nextProps.info
         });
     }
+    componentDidMount() {
+        document.addEventListener("keypress", event => {
+            if (event.key == "Enter") {
+                this.updateInfo();
+            }
+        });
+    }
     editSwitch() {
         this.setState({
             editing: !this.state.editing
         });
     }
     updateInfo() {
-        console.log(this.refs);
         var info = {};
-        info["id"] = this.state.userInfo["id"];
-        info["name"] = this.refs["name"].value;
-        info["surname"] = this.refs["surname"].value;
-        info["email"] = this.refs["email"].value;
-        console.log(info);
-        this.editSwitch();
-        this.props.update(info);
+        var check = Object(__WEBPACK_IMPORTED_MODULE_1__inputcheck_js__["a" /* default */])([this.refs["name"], this.refs["surname"], this.refs["email"]]);
+
+        if (check[0] === true) {
+            info["id"] = this.state.userInfo["id"];
+            info["name"] = this.refs["name"].value;
+            info["surname"] = this.refs["surname"].value;
+            info["email"] = this.refs["email"].value;
+
+            this.editSwitch();
+            this.props.update(info);
+        } else {
+            check[1].style.outlineColor = "red";
+            check[1].focus();
+        }
     }
+    //ova komponenta ima 2 rendera, ovisno o stateu
     normalRender() {
         var obj = this.state.userInfo;
         var html;
@@ -19140,10 +19202,9 @@ class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             "div",
             null,
             keys.map((val, index) => {
-
+                //s obzirom da ne želimo da korisnik proizvoljno mijenja ID, index 0 odnosno prvi ključ se preskače.Ne rendera se input nego običan div
                 if (index > 0) {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { key: index, style: { display: "inline" }, defaultValue: obj[keys[index]],
-                        ref: inputs[index - 1] });
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { key: index, style: { display: "inline" }, defaultValue: obj[keys[index]], ref: inputs[index - 1] });
                 } else {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "div",

@@ -1,4 +1,5 @@
 import React from "react"
+import inputCheck from "./inputcheck.js";
 
 export default class UserInfoBox extends React.Component{
     constructor(props) {
@@ -18,6 +19,13 @@ export default class UserInfoBox extends React.Component{
             userInfo: nextProps.info
         })
     }
+    componentDidMount() {
+        document.addEventListener("keypress",(event)=>{
+            if (event.key =="Enter") {
+                this.updateInfo()
+                }
+            })
+    }
     editSwitch() {
         this.setState({
             editing: !this.state.editing
@@ -25,14 +33,20 @@ export default class UserInfoBox extends React.Component{
     }
     updateInfo() {
         var info = {}
-        info["id"] = this.state.userInfo["id"]
-        info["name"] = this.refs["name"].value
-        info["surname"] =this.refs["surname"].value
-        info["email"] = this.refs["email"].value
+        var check = inputCheck([this.refs["name"],this.refs["surname"],this.refs["email"]])
 
-        this.editSwitch()
-        this.props.update(info)
+        if (check[0]===true) {
+            info["id"] = this.state.userInfo["id"]
+            info["name"] = this.refs["name"].value
+            info["surname"] =this.refs["surname"].value
+            info["email"] = this.refs["email"].value
 
+            this.editSwitch()
+            this.props.update(info)
+        } else {
+            check[1].style.outlineColor ="red"
+            check[1].focus()
+        }
     }
     //ova komponenta ima 2 rendera, ovisno o stateu
     normalRender(){
