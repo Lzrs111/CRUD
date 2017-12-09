@@ -18299,6 +18299,8 @@ module.exports = camelize;
 
 
 
+//glavna komponenta
+
 class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     constructor() {
         super();
@@ -18368,7 +18370,6 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             body: JSON.stringify(user)
         });
         fetch(request).then(() => {
-            console.log("get users");
             this.getUsers();
         });
     }
@@ -18410,6 +18411,8 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 
 
+
+//komponenta za unos novih korisnika u bazu
 
 class UserForm extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     constructor() {
@@ -19113,6 +19116,8 @@ module.exports = function (css) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__inputcheck_js__ = __webpack_require__(14);
 
 
+
+//komponenta koja prikazuje postojeće korisnike, ali se putem nje i mijenjaju podaci o tim istim korisnicima
 
 class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     constructor(props) {

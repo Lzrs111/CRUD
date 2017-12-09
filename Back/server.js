@@ -1,12 +1,11 @@
 var http = require("http")
 var fs = require("fs")
 var url = require("url")
-var retrievefromDB = require("./CRUD.js").retrieveFromDB
+var retrievefromDB = require("./CRUD.js").retrievefromDB
 var editDB = require("./CRUD.js").editDB
-var addToDB = require("./CRUD.js").addToDB
-var deletefromDB = require("./CRUD.js").deleteFromDB
+var addToDB = require("./CRUD.js").addtoDB
+var deletefromDB = require("./CRUD.js").deletefromDB
 var index = fs.readFileSync("./build/index.html")
-var mongo = require("mongodb").MongoClient
 
 
 
@@ -23,20 +22,20 @@ http.createServer((req,res)=>{
         res.end()
     
     } else if (req.method ==="GET" && pathname==="/users") {
-        retrievefromDB(mongo,pathname,res)
+        retrievefromDB(res)
     } else if (req.method==="DELETE") {
-        deletefromDB(mongo,pathname,res)
+        deletefromDB(pathname,res)
     } else if (req.method==="POST" && pathname == "/adduser") {
             var string= ""
             req.on("data",(data)=>{
                 string+=data.toString()
-                addToDB(mongo,string,res)
+                addToDB(string,res)
             })
     } else if (req.method ==="POST" && pathname == "/edituser") {
             var string = ""
             req.on("data",(data)=>{
                 string+=data.toString()
-                editDB(mongo,string,res)
+                editDB(string,res)
             })
     }
 

@@ -74,9 +74,8 @@ export default class Main extends React.Component {
             body: JSON.stringify(user) 
         })
         fetch(request).then(()=>{
-            console.log("get users")
             this.getUsers()
-            })
+        })
     }
     render() {
         

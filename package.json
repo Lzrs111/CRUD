@@ -20,6 +20,7 @@
   "dependencies": {
     "babel-loader": "^7.1.2",
     "mongodb": "^2.2.23",
+    "mongoose": "^4.13.6",
     "nodemon": "^1.12.5",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",

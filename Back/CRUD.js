@@ -1,66 +1,68 @@
 
 //funkcije za bazu
 
-var mongo = require("mongodb")
-var http = require("http")
+var mongoose = require("mongoose")
+var Schema = mongoose.Schema
 
-//funkcija koja vadi sve korisnike iz baze
-function retrieveFromDB(db,url,res) {
-    db.connect("mongodb://localhost:27017",(err,datab)=>{
-        datab.collection("users").find({},{_id:0}).toArray((err,info)=>{
-            if (err) throw err
-            var final = Object.assign({},info)
-            res.end(JSON.stringify(final))
-            })
+var userSchema = new Schema({
+    id: String,
+    name: String,
+    surname: String,
+    email: String
+})
+
+var connection = mongoose.connect("mongodb://localhost:27017?useMongoClient")
+var userModel = connection.model("users",userSchema)
+
+function retrievefromDB(res) {
+    userModel.find({},"-_id id name surname email",(err,data)=>{
+        if (err) throw err
+        data = Object.assign({},data)
+        res.end(JSON.stringify(data))
+        })
+} 
+
+function deletefromDB(pathname,res) {
+    var userId = pathname.slice(-1)
+    userModel.find({id:userId}).remove((err)=>{
+        if (err) throw err
+        retrievefromDB(res)
         })
 }
 
-//funkcija koja briše korisnika iz baze
-function deleteFromDB(db,url,res) {
-    var userId = url.slice(-1)
-    console.log("user id", userId)
-    db.connect("mongodb://localhost:27017",(err,datab)=>{
-       var collection =  datab.collection("users")        
-       collection.remove({id:userId})
-       res.end()
+function addtoDB(string,res) {
+    var userId = ""
+    userModel.find({}).sort("-id").exec((err,data)=>{
+        if(err) throw err
+        if (data.length >0) {
+            userId = (Number(data[0]["id"])+1).toString()
+        } else {
+            userId=0
+        }
+        var final = Object.assign({"id":userId},JSON.parse(string))
+        var user = new userModel(final)
+        user.save((err)=>{
+            if (err) throw err
+            res.end()
+            })
     })
+
 }
 
-//funkcija koja dodaje u bazu
-function addToDB(db,body,res) {
-    var json = JSON.parse(body)
-    
-    db.connect("mongodb://localhost:27017",(err,datab)=>{
-       var collection =  datab.collection("users") 
-       collection.find({},{_id:0,name:0,surname:0,email:0}).toArray((err,info)=>{
-           //s obzirom da se id korisnika ne unosi u front endu, korsniku se dodijeljuje id za jedan veći od trenutnog maksimalnog
-           var max = -1
-           if (info.length > 0) {
-                max = Number(info[info.length-1]["id"])
-           }
-           max = max+1
-           json = Object.assign({"id":max.toString()},json)
-           collection.insertOne(json,(err)=>{
-               res.end()
-               })
-           })
-    })       
+function editDB(string,res){
+    var json = JSON.parse(string)
+    console.log(json)
+    userModel.update({id: json["id"] }, {$set:json},(err)=>{
+            if (err) throw err
+            res.end()
+            })
 }
 
 
-//funkcija koja mijenja unos u bazi
-function editDB(db,body,res) {
-    var json = JSON.parse(body)
-    db.connect("mongodb://localhost:27017",(err,datab)=>{
-       var collection =  datab.collection("users")
-       collection.update({id:json["id"]},json)
-       res.end()
-    })
-}
 
-module.exports ={
-    retrieveFromDB,
-    deleteFromDB,
-    addToDB,
+module.exports = {
+    retrievefromDB,
+    deletefromDB,
+    addtoDB,
     editDB
 }
