@@ -18338,10 +18338,9 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
         });
     }
     //brisanje korisnika
-    deleteUser(key) {
-
-        var deleteString = "delete" + key.toString();
-        var request = new Request(deleteString, {
+    deleteUser(userId) {
+        console.log(userId);
+        var request = new Request(userId, {
             method: "DELETE"
         });
         fetch(request).then(() => {
@@ -18361,6 +18360,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
     //mijenjanje postojećeg korisnika
     editUser(user) {
+        console.log(user);
         var request = new Request("edituser", {
             method: "POST",
             body: JSON.stringify(user)
@@ -18379,7 +18379,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             this.state.adding ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__userForm_js__["a" /* default */], { cancel: this.addSwitch, addUser: this.addUser }) : null,
             number != null ? number.map((val, ind) => {
                 //komponenta tek poslije mountanja dobiva podatke iz baze, te na inicijalnom renderu nema što prikazati
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, id: this.state.users[ind].id, update: this.editUser });
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__userInfo_js__["a" /* default */], { info: this.state.users[ind], key: ind, deleteUser: this.deleteUser, update: this.editUser });
             }) : null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "button",
@@ -19149,10 +19149,10 @@ class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
         var check = Object(__WEBPACK_IMPORTED_MODULE_1__inputcheck_js__["a" /* default */])([this.refs["name"], this.refs["surname"], this.refs["email"]]);
 
         if (check[0] === true) {
-            info["id"] = this.state.userInfo["id"];
             info["name"] = this.refs["name"].value;
             info["surname"] = this.refs["surname"].value;
             info["email"] = this.refs["email"].value;
+            info["_id"] = this.state.userInfo["_id"];
 
             this.editSwitch();
             this.props.update(info);
@@ -19171,16 +19171,18 @@ class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("br", null),
             keys.map((val, index) => {
-                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    "div",
-                    { key: index, style: { display: "inline" } },
-                    " " + obj[keys[index]] + " "
-                );
+                if (index > 0) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        "div",
+                        { key: index, style: { display: "inline" } },
+                        " " + obj[keys[index]] + " "
+                    );
+                }
             }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 "button",
                 { onClick: () => {
-                        this.props.deleteUser(this.props.id);
+                        this.props.deleteUser(this.state.userInfo["_id"]);
                     } },
                 "DELETE"
             ),
@@ -19203,15 +19205,9 @@ class UserInfoBox extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             "div",
             null,
             keys.map((val, index) => {
-                //s obzirom da ne želimo da korisnik proizvoljno mijenja ID, index 0 odnosno prvi ključ se preskače.Ne rendera se input nego običan div
+                //preskače se _id
                 if (index > 0) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement("input", { key: index, style: { display: "inline" }, defaultValue: obj[keys[index]], ref: inputs[index - 1] });
-                } else {
-                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        "div",
-                        { key: index, style: { display: "inline" } },
-                        " " + obj[keys[index]] + " "
-                    );
                 }
             }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

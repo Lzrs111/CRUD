@@ -39,10 +39,10 @@ export default class UserInfoBox extends React.Component{
         var check = inputCheck([this.refs["name"],this.refs["surname"],this.refs["email"]])
 
         if (check[0]===true) {
-            info["id"] = this.state.userInfo["id"]
             info["name"] = this.refs["name"].value
             info["surname"] =this.refs["surname"].value
             info["email"] = this.refs["email"].value
+            info["_id"] = this.state.userInfo["_id"]
 
             this.editSwitch()
             this.props.update(info)
@@ -60,11 +60,13 @@ export default class UserInfoBox extends React.Component{
             <div>
                 <br/>
                 {keys.map((val,index)=>{
-                    return <div key={index} style={{display:"inline"}}>
-                                {" " + obj[keys[index]]+ " "}
-                            </div>
+                    if (index>0) {
+                        return <div key={index} style={{display:"inline"}}>
+                                  {" " + obj[keys[index]]+ " "}
+                                </div>
+                    }
                     })}
-                <button onClick={()=>{this.props.deleteUser(this.props.id)}}>DELETE</button>
+                <button onClick={()=>{this.props.deleteUser(this.state.userInfo["_id"])}}>DELETE</button>
                 <button onClick={()=>{this.editSwitch()}}>EDIT</button>
                 <br/>
             </div>
@@ -78,13 +80,10 @@ export default class UserInfoBox extends React.Component{
         return(
         <div>
                 {keys.map((val,index)=>{
-                        //s obzirom da ne želimo da korisnik proizvoljno mijenja ID, index 0 odnosno prvi ključ se preskače.Ne rendera se input nego običan div
+                    //preskače se _id
                         if (index > 0) {
                             return <input key={index} style={{display:"inline"}} defaultValue={obj[keys[index]]} ref={inputs[index-1]}></input> } 
-                        else {
-                            return <div key={index} style={{display:"inline"}}>{" " + obj[keys[index]]+ " "}
-                            </div>
-                        }
+                        
                     })}
                 <button onClick={()=>{this.updateInfo() }}>CONFIRM</button>
                 <button onClick={()=>{this.editSwitch()}}>CANCEL</button>

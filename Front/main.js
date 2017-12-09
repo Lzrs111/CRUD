@@ -43,10 +43,9 @@ export default class Main extends React.Component {
         
     }
     //brisanje korisnika
-    deleteUser(key) {
-
-        var deleteString = "delete" + key.toString()
-        var request = new Request(deleteString,{
+    deleteUser(userId) {
+        console.log(userId)
+        var request = new Request(userId,{
             method: "DELETE"
         })
         fetch(request).then(()=>{
@@ -66,6 +65,7 @@ export default class Main extends React.Component {
     }
     //mijenjanje postojećeg korisnika
     editUser(user) {
+        console.log(user)
         var request = new Request("edituser",{
             method: "POST",
             body: JSON.stringify(user) 
@@ -82,7 +82,7 @@ export default class Main extends React.Component {
            <div>
                 {this.state.adding ? <UserForm cancel={this.addSwitch} addUser={this.addUser}/> : null}
                 {(number!=null) ? number.map((val,ind)=>{ //komponenta tek poslije mountanja dobiva podatke iz baze, te na inicijalnom renderu nema što prikazati
-                    return <UserInfoBox info={this.state.users[ind]} key={ind} deleteUser={this.deleteUser} id={this.state.users[ind].id} update={this.editUser}/>    
+                    return <UserInfoBox info={this.state.users[ind]} key={ind} deleteUser={this.deleteUser} update={this.editUser}/>    
                     }) : null }
                 
                 <button onClick={()=>{this.addSwitch()}}>Add new user</button>
