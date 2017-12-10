@@ -47,8 +47,3 @@ for (u in users)  {
        })
 }
 
-
-userModel.find({},(err,data)=>{
-    console.log("data")
-    console.log(data)
-    })
