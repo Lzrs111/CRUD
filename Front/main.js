@@ -18,16 +18,15 @@ export default class Main extends React.Component {
         this.editUser = this.editUser.bind(this)
         
     }
+    //kad se komponenta mounta, dohvati korisnike iz baze
     componentDidMount() {
         this.getUsers()
     }
-    
     addSwitch() {
         this.setState({
             adding: !this.state.adding
         })
     }
-    
     //funkcija koja vadi korisnike iz baze
     getUsers() {
         var request = new Request("users",{
@@ -40,7 +39,6 @@ export default class Main extends React.Component {
                     users:data
                 })
             })
-        
     }
     //brisanje korisnika
     deleteUser(userId) {
@@ -75,11 +73,10 @@ export default class Main extends React.Component {
         })
     }
     render() {
-        
         var number = this.state.users ? Object.keys(this.state.users):null
-        
         return(
            <div>
+                {/*renderaj UserForm samo ako dodajemo korisnika*/}
                 {this.state.adding ? <UserForm cancel={this.addSwitch} addUser={this.addUser}/> : null}
                 {(number!=null) ? number.map((val,ind)=>{ //komponenta tek poslije mountanja dobiva podatke iz baze, te na inicijalnom renderu nema što prikazati
                     return <UserInfoBox info={this.state.users[ind]} key={ind} deleteUser={this.deleteUser} update={this.editUser}/>    

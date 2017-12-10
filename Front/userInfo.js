@@ -34,8 +34,10 @@ export default class UserInfoBox extends React.Component{
             editing: !this.state.editing
         })
     }
+    //metoda za updateanje korisnika u bazi
     updateInfo() {
         var info = {}
+        //slično kao i za unos novih korisnika, inputi se provjeravaju
         var check = inputCheck([this.refs["name"],this.refs["surname"],this.refs["email"]])
 
         if (check[0]===true) {

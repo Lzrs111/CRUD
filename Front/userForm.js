@@ -8,13 +8,10 @@ import inputCheck from "./inputCheck.js";
 export default class UserForm extends React.Component {
     constructor(){
         super()
-        this.state = {
-            }
         this.getUserInfo = this.getUserInfo.bind(this)
     }
     componentDidMount() {
         this.nameInput.focus()
-
         document.addEventListener("keypress",(event)=>{
             if (event.key =="Enter") {
                 this.getUserInfo()
@@ -25,7 +22,7 @@ export default class UserForm extends React.Component {
         var user = {}
         //prije unosa korisnika u bazu provjeriti jesu li sva polja ispunjena te je li email ispravan
         var check = inputCheck([this.nameInput,this.surnameInput,this.emailInput])
-
+        //ako su podaci točni, ubaci korisnika u bazu, u protivnom highliteaj pogrešan input field
         if (check[0]===true) {
             user["name"]=this.nameInput.value
             user["surname"]=this.surnameInput.value
