@@ -3,7 +3,7 @@
 export default function inputCheck(inputs) {
 
     var check = [] 
-    //nije moje
+    //donji regex nije moj 
     var email = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
     console.log("email", email.test(inputs[2].value),inputs[2])
     for (var i = 0; i < inputs.length; i++) {
