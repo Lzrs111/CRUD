@@ -31,7 +31,7 @@ var users = [
      {
          "name": "Ivan",
          "surname":"Ivanović",
-         "email:": "ivan.ivanovic@gmail.com"
+         "email": "ivan.ivanovic@gmail.com"
      }
 ]
 
