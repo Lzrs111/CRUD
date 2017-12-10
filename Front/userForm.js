@@ -1,6 +1,6 @@
 import React from "react"
 import './userform.css'
-import inputCheck from "./inputcheck.js";
+import inputCheck from "./inputCheck.js";
 
 
 //komponenta za unos novih korisnika u bazu

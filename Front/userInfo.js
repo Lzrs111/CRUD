@@ -1,5 +1,5 @@
 import React from "react"
-import inputCheck from "./inputcheck.js";
+import inputCheck from "./inputCheck.js";
 
 
 //komponenta koja prikazuje postojeće korisnike, ali se putem nje i mijenjaju podaci o tim istim korisnicima

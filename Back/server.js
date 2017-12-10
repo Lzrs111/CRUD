@@ -1,10 +1,10 @@
 var http = require("http")
 var fs = require("fs")
 var url = require("url")
-var retrievefromDB = require("./CRUD.js").retrievefromDB
-var editDB = require("./CRUD.js").editDB
-var addToDB = require("./CRUD.js").addtoDB
-var deletefromDB = require("./CRUD.js").deletefromDB
+var retrievefromDB = require("./crud.js").retrievefromDB
+var editDB = require("./crud.js").editDB
+var addToDB = require("./crud.js").addtoDB
+var deletefromDB = require("./crud.js").deletefromDB
 var index = fs.readFileSync("./build/index.html")
 
 
