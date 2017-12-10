@@ -8,7 +8,7 @@ var userSchema = new Schema({
     email: String
 })
 
-var connection = mongoose.connect("mongodb://localhost:27017?useMongoClient")
+var connection = mongoose.connect("mongodb://localhost:27017",{useMongoClient: true})
 var userModel = connection.model("users",userSchema)
 
 var users = [
